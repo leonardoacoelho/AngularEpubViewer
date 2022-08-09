@@ -10,8 +10,6 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Subscription} from "rxjs/Subscription";
 import {
     EpubChapter,
     EpubError,
@@ -20,7 +18,8 @@ import {
     EpubPage,
     EpubSearchResult
 } from "./angularEpubViewer.models";
-import 'rxjs/add/operator/filter';
+import { filter } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 declare const ePub: any;
 
@@ -45,7 +44,7 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
     /**
      * Root container's DOM reference
      */
-    @ViewChild('angularEpubViewerComponent', {read: ElementRef})
+    @ViewChild('angularEpubViewerComponent', { static: false, read: ElementRef })
     root: ElementRef;
 
     /**
@@ -160,11 +159,11 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
 
     private needComputePagination: boolean = false;
 
-    constructor(private zone: NgZone) {}
+    constructor(private zone: NgZone) { }
 
     ngAfterViewInit() {
         this.linkSubscription = this._link.asObservable()
-            .filter(link => link != null)
+            .pipe(filter(link => link != null))
             .subscribe(link => {
                 this.initEpub({
                     bookPath: link
@@ -482,7 +481,7 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
     };
 
     ngOnDestroy() {
-        if (this.linkSubscription) {this.linkSubscription.unsubscribe();}
+        if (this.linkSubscription) { this.linkSubscription.unsubscribe(); }
         this.destroyEpub();
     }
 }

@@ -36,7 +36,8 @@
   ],
   "homepage": "https://github.com/androidovshchik/AngularEpubViewer#readme",
   "dependencies": {
-    "epubjs": "^0.3.93"
+    "@angular-devkit/build-angular": "^14.1.1",
+    "epubjs": "^0.2.21"
   },
   "devDependencies": {
     "@angular/animations": "^14.1.1",

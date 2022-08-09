@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {AngularEpubViewerComponent} from "../../libs/angular-epub-viewer/src/angularEpubViewer.component";
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AngularEpubViewerComponent } from "../../libs/angular-epub-viewer/src/angularEpubViewer.component";
 import {
     EpubChapter,
     EpubError,
@@ -8,7 +8,7 @@ import {
     EpubPage,
     EpubSearchResult
 } from "../../libs/angular-epub-viewer/src/angularEpubViewer.models";
-import {environment} from "../environments/environment";
+import { environment } from "../environments/environment";
 
 @Component({
     selector: 'app-root',
@@ -18,12 +18,9 @@ import {environment} from "../environments/environment";
 })
 export class AppComponent implements OnInit {
 
-    @ViewChild('epubViewer')
-    epubViewer: AngularEpubViewerComponent;
-    @ViewChild('picker', {read: ElementRef})
-    picker: ElementRef;
-    @ViewChild('metadata', {read: ElementRef})
-    metadata: ElementRef;
+    @ViewChild('epubViewer', { static: false }) epubViewer: AngularEpubViewerComponent;
+    @ViewChild('picker', { static: false, read: ElementRef }) picker: ElementRef;
+    @ViewChild('metadata', { static: false, read: ElementRef }) metadata: ElementRef;
 
     unzippedBooks: Book[] = [].concat(UNZIPPED_BOOKS);
     zippedBooks: Book[] = [].concat(ZIPPED_BOOKS);
@@ -53,22 +50,26 @@ export class AppComponent implements OnInit {
     }
 
     onBookUnloaded() {
-        this.lockDocumentChoose = true;
-        this.lockSearch = true;
-        this.lockPagination = true;
-        this.lockTOC = true;
-        this.totalPages = 0;
-        this.chapters = [];
-        this.chosenChapter = null;
-        this.metadata.nativeElement.innerHTML = '';
+        setTimeout(() => {
+            this.lockDocumentChoose = true;
+            this.lockSearch = true;
+            this.lockPagination = true;
+            this.lockTOC = true;
+            this.totalPages = 0;
+            this.chapters = [];
+            this.chosenChapter = null;
+            this.metadata.nativeElement.innerHTML = '';
+        });
     }
 
     onSelectedBook() {
-        this.onBookUnloaded();
-        // removing picked file
-        this.picker.nativeElement.value = null;
-        // path will be translated to link
-        this.epubViewer.openLink(this.chosenDocument.path);
+        setTimeout(() => {
+            this.onBookUnloaded();
+            // removing picked file
+            this.picker.nativeElement.value = null;
+            // path will be translated to link
+            this.epubViewer.openLink(this.chosenDocument.path);
+        });
     }
 
     openFile(event) {

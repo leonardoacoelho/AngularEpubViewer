@@ -80,36 +80,36 @@ export class AppComponent implements OnInit {
     }
 
     onDocumentReady() {
-        console.log('event:onDocumentReady');
+     //   console.log('event:onDocumentReady');
         this.lockDocumentChoose = false;
         this.epubViewer.setStyle('font-size', this.chosenFontSize);
     }
 
     onChapterUnloaded() {
-        console.log('event:onChapterUnloaded');
+      //  console.log('event:onChapterUnloaded');
         this.lockSearch = true;
         this.lockPagination = true;
     }
 
     onChapterDisplayed(chapter: EpubChapter) {
-        console.log('event:onChapterDisplayed');
+     //   console.log('event:onChapterDisplayed');
         this.lockSearch = false;
         this.lockPagination = this.totalPages <= 0;
         this.onSearchPrinted();
     }
 
     onLocationFound(location: EpubLocation) {
-        console.log('event:onLocationFound');
+     //   console.log('event:onLocationFound');
     }
 
     onPaginationComputed(pages: EpubPage[]) {
-        console.log('event:onPaginationComputed');
+     //   console.log('event:onPaginationComputed');
         this.lockPagination = false;
         this.totalPages = pages.length;
     }
 
     onTOCLoaded(chapters: EpubChapter[]) {
-        console.log('event:onTOCLoaded');
+      //  console.log('event:onTOCLoaded');
         this.chapters = [].concat(chapters);
         if (this.chapters.length > 0) {
             this.chosenChapter = this.chapters[0];
@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
     }
 
     onSearchFinished(results: EpubSearchResult[]) {
-        console.log('event:onSearchFinished');
+      //  console.log('event:onSearchFinished');
         this.lockSearch = false;
         this.matchesCount = results.length;
     }
@@ -150,14 +150,14 @@ export class AppComponent implements OnInit {
     }
 
     onMetadataLoaded(metadata: EpubMetadata) {
-        console.log('event:onMetadataLoaded');
+      //  console.log('event:onMetadataLoaded');
         this.metadata.nativeElement.innerHTML = JSON.stringify(metadata, null, 2)
             .replace(/\n/g, '<br>')
             .replace(/ /g, '&nbsp;');
     }
 
     onErrorOccurred(error: EpubError) {
-        console.log('event:onErrorOccurred');
+     //   console.log('event:onErrorOccurred');
         switch (error) {
             case EpubError.OPEN_FILE:
                 this.lockDocumentChoose = false;

@@ -1,23 +1,5 @@
-import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    NgZone,
-    OnDestroy,
-    Output,
-    ViewChild,
-    ViewEncapsulation
-} from '@angular/core';
-import {
-    EpubChapter,
-    EpubError,
-    EpubLocation,
-    EpubMetadata,
-    EpubPage,
-    EpubSearchResult
-} from "./angularEpubViewer.models";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { EpubChapter, EpubError, EpubLocation, EpubMetadata, EpubPage, EpubSearchResult } from "./angularEpubViewer.models";
 import { filter } from 'rxjs/operators';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -44,8 +26,7 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
     /**
      * Root container's DOM reference
      */
-    @ViewChild('angularEpubViewerComponent', { static: false, read: ElementRef })
-    root: ElementRef;
+    @ViewChild('angularEpubViewerComponent', { static: false, read: ElementRef }) root: ElementRef;
 
     /**
      * Primary object
@@ -85,69 +66,56 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
     /**
      * Root container's padding in px, em, etc.
      */
-    @Input()
-    padding: string = null;
+    @Input() padding: string = null;
     /**
      * Enables auto calculate of pagination after document is ready or viewport has been changed
      */
-    @Input()
-    autoPagination: boolean = false;
+    @Input() autoPagination: boolean = false;
     /**
      * Enables auto loading of metadata after document is ready
      */
-    @Input()
-    autoMetadata: boolean = false;
+    @Input() autoMetadata: boolean = false;
     /**
      * Enables auto loading of table of contents after document is ready
      */
-    @Input()
-    autoTOC: boolean = false;
+    @Input() autoTOC: boolean = false;
 
     /**
      * Get event when document is loaded
      */
-    @Output('onDocumentReady')
-    onDocumentReady: EventEmitter<void> = new EventEmitter<void>();
+    @Output('onDocumentReady') onDocumentReady: EventEmitter<void> = new EventEmitter<void>();
     /**
      * Get event when chapter is unloaded
      */
-    @Output('onChapterUnloaded')
-    onChapterUnloaded: EventEmitter<void> = new EventEmitter<void>();
+    @Output('onChapterUnloaded') onChapterUnloaded: EventEmitter<void> = new EventEmitter<void>();
     /**
      * Get event when chapter is displayed
      */
-    @Output('onChapterDisplayed')
-    onChapterDisplayed: EventEmitter<EpubChapter> = new EventEmitter<EpubChapter>();
+    @Output('onChapterDisplayed') onChapterDisplayed: EventEmitter<EpubChapter> = new EventEmitter<EpubChapter>();
     /**
      * Get event about the current location
      */
-    @Output('onLocationFound')
-    onLocationFound: EventEmitter<EpubLocation> = new EventEmitter<EpubLocation>();
+    @Output('onLocationFound') onLocationFound: EventEmitter<EpubLocation> = new EventEmitter<EpubLocation>();
     /**
      * Get event about search results
      */
-    @Output('onSearchFinished')
-    onSearchFinished: EventEmitter<EpubSearchResult[]> = new EventEmitter<EpubSearchResult[]>();
+    @Output('onSearchFinished') onSearchFinished: EventEmitter<EpubSearchResult[]> = new EventEmitter<EpubSearchResult[]>();
     /**
      * Get event about pagination
      */
-    @Output('onPaginationComputed')
-    onPaginationComputed: EventEmitter<EpubPage[]> = new EventEmitter<EpubPage[]>();
+    @Output('onPaginationComputed') onPaginationComputed: EventEmitter<EpubPage[]> = new EventEmitter<EpubPage[]>();
     /**
      * Get event about metadata
      */
-    @Output('onMetadataLoaded')
-    onMetadataLoaded: EventEmitter<EpubMetadata> = new EventEmitter<EpubMetadata>();
+    @Output('onMetadataLoaded') onMetadataLoaded: EventEmitter<EpubMetadata> = new EventEmitter<EpubMetadata>();
     /**
      * Get event about table of contents
      */
-    @Output('onTOCLoaded')
-    onTOCLoaded: EventEmitter<EpubChapter[]> = new EventEmitter<EpubChapter[]>();
+    @Output('onTOCLoaded') onTOCLoaded: EventEmitter<EpubChapter[]> = new EventEmitter<EpubChapter[]>();
     /**
      * Get event when any error occurred
      */
-    @Output('onErrorOccurred')
-    onErrorOccurred: EventEmitter<EpubError> = new EventEmitter<EpubError>();
+    @Output('onErrorOccurred') onErrorOccurred: EventEmitter<EpubError> = new EventEmitter<EpubError>();
 
     /**
      * Starts loading document by link only after DOM is ready
@@ -189,7 +157,7 @@ export class AngularEpubViewerComponent implements AfterViewInit, OnDestroy {
                 }
             });
         });
-        this.epub.on('book:pageChanged', (location) => {
+        this.epub.on('book:pageChanged', (location, a) => {
             this.zone.run(() => {
                 if (!this.computingPagination) {
                     this.currentLocation.page = location.anchorPage;
